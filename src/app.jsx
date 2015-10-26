@@ -2,10 +2,16 @@ var React = require('react');
 var ReactFire = require('reactfire');
 var Firebase = require('firebase');
 var Header = require('./header');
+var List = require('./list');
 var rootUrl = 'https://blistering-heat-2046.firebaseio.com/';
 
 var App = React.createClass({
   mixins: [ ReactFire ],
+  getInitialState: function() {
+    return {
+      items: {}
+    }
+  },
   componentWillMount: function() {
     this.bindAsObject(new Firebase(rootUrl + 'items/'), 'items');
   },
@@ -16,6 +22,7 @@ var App = React.createClass({
           To-Do List
         </h2>
         <Header itemStore={this.firebaseRefs.items}/>
+        <List items={this.state.items}/>
       </div>
     </div>
   }

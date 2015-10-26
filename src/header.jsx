@@ -12,7 +12,8 @@ module.exports = React.createClass({
         value={this.state.text}
         onChange={this.handleInputChange}
         type="text"
-        className="form-control" />
+        className="form-control"
+      />
       <span className="input-group-btn">
         <button
           onClick={this.handleClick}
@@ -26,6 +27,7 @@ module.exports = React.createClass({
   handleClick: function() {
     // We make a reference to our firebase object, which we pass down from app.jsx, and we call it itemStore
     // Then we use a method called push, which is a firebase method which creates a new object in our remote database
+    // This push is different from JS push
     this.props.itemStore.push({
       text: this.state.text,
       done: false
