@@ -25,7 +25,12 @@ module.exports = React.createClass({
   },
   handleClick: function() {
     // Send value of text input to Firebase
-    console.log(this.state.text);
+    this.props.itemStore.push({
+      text: this.state.text,
+      done: false
+    });
+
+    this.setState({ text: '' });
   },
   handleInputChange: function(event) {
     // Hey, whatever event this just happened too, give me a DOM node reference to it.  In this case it's our input
