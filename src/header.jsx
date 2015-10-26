@@ -24,7 +24,8 @@ module.exports = React.createClass({
     </div>
   },
   handleClick: function() {
-    // Send value of text input to Firebase
+    // We make a reference to our firebase object, which we pass down from app.jsx, and we call it itemStore
+    // Then we use a method called push, which is a firebase method which creates a new object in our remote database
     this.props.itemStore.push({
       text: this.state.text,
       done: false
