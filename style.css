@@ -1,2 +1,12 @@
+ul {
+  list-style-type: none; }
+
+.content {
+  opacity: 0;
+  transition: opacity 1s ease-in; }
+
+.loaded {
+  opacity: 1; }
+
 .black {
   color: black; }

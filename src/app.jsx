@@ -9,11 +9,16 @@ var App = React.createClass({
   mixins: [ ReactFire ],
   getInitialState: function() {
     return {
-      items: {}
+      items: {},
+      loaded: false
     }
   },
   componentWillMount: function() {
-    this.bindAsObject(new Firebase(rootUrl + 'items/'), 'items');
+    fb = new Firebase(rootUrl + 'items/');
+    this.bindAsObject(fb, 'items');
+    // On lets us listen to events, and firebase has a value events
+    // Value emits value, as soon as it sees data flow in
+    fb.on('value', this.handleDataLoaded);
   },
   render: function() {
     return <div className="row panel panel-default">
@@ -22,9 +27,15 @@ var App = React.createClass({
           To-Do List
         </h2>
         <Header itemStore={this.firebaseRefs.items}/>
-        <List items={this.state.items}/>
+        <div className={"content " + (this.state.loaded ? 'loaded' : '')}>
+          <List items={this.state.items}/>
+        </div>
       </div>
     </div>
+  },
+  handleDataLoaded: function() {
+    // Yes our data has been loaded, it's now safe to show the data on the page
+    this.setState({loaded: true});
   }
 });
 var element = React.createElement(App, {});
