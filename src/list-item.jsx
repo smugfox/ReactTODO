@@ -6,7 +6,8 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       text: this.props.item.text,
-      done: this.props.item.done
+      done: this.props.item.done,
+      textChanged: false
     }
   },
   componentWillMount: function() {
@@ -24,13 +25,35 @@ module.exports = React.createClass({
       <input type="text"
         className="form-control"
         value={this.state.text}
+        onChange={this.handleTextChange}
       />
       <span className="input-group-btn">
-        <button className="btn btn-default">
+        {this.changesButtons()}
+        <button
+        className="btn btn-default"
+        onClick={this.handleDeleteClick}
+        >
           Delete
         </button>
       </span>
     </div>
+  },
+  changesButtons: function() {
+    // If the text hasn't changed return null, meaning please don't render this
+    if(!this.state.textChanged) {
+      return null
+    } else {
+      return <span>
+        <button className="btn btn-default">Save</button>
+        <button className="btn btn-default">Undo</button>
+      </span>
+    }
+  },
+  handleTextChange: function(event) {
+    this.setState({
+      text: event.target.value,
+      textChanged: true
+    });
   },
   handleDoneChange: function(event) {
     var update = {done: event.target.checked};
@@ -38,6 +61,9 @@ module.exports = React.createClass({
 
     // This will update any data sitting at this firebase node
     this.fb.update(update);
+  },
+  handleDeleteClick: function() {
+    this.fb.remove();
   }
 });
 
